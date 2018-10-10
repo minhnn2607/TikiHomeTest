@@ -66,7 +66,9 @@ class MainPresenter {
                     if (results != null) {
                         List<HotKeyWordModel> data = new ArrayList<>();
                         for (String item : results) {
-                            data.add(new HotKeyWordModel(formatString(item), getRandomColor()));
+                            if (null != item && item.trim().length() > 0 && !item.trim().equals("")){
+                                data.add(new HotKeyWordModel(formatString(item.trim()), getRandomColor()));
+                            }
                         }
                         view.onGetHoyKeySuccess(data);
                     } else {
