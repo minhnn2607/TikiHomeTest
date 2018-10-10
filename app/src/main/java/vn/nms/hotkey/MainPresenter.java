@@ -22,7 +22,6 @@ class MainPresenter {
     private MainView view;
 
     MainPresenter() {
-        String x = formatString("nguyễn nhật ánh");
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -89,24 +88,24 @@ class MainPresenter {
 
     private String formatString(String input) {
         if (input != null) {
-            String[] array = input.split(" ");
-            int limitCharPerLine = (input.length() - array.length - 1) / 2;
-            if (array.length > 2) {
-                StringBuilder sb = new StringBuilder();
-                boolean isBreakLine = false;
-                int currentLength = 0;
-                for (int i = 0; i < array.length; i++) {
-                    currentLength += array[i].length();
-                    if (i != 0 && currentLength > limitCharPerLine && !isBreakLine) {
-                        sb.append("\n");
-                        isBreakLine = true;
-                    }
-                    sb.append(array[i]);
-                    if (i < array.length - 1) {
-                        sb.append(" ");
+            int center = input.length() % 2 == 0 ? input.length() / 2 : input.length() / 2 + 1;
+            int breakLineIndex = -1;
+            if (input.charAt(center) == ' ') {
+                breakLineIndex = center;
+            } else {
+                for (int i = 1; i < center - 1; i++) {
+                    if (input.charAt(center - i) == ' ') {
+                        breakLineIndex = center - i;
+                        break;
+                    } else if (input.charAt(center + i) == ' ') {
+                        breakLineIndex = center + i;
+                        break;
                     }
                 }
-                return sb.toString();
+            }
+            if (breakLineIndex != -1) {
+                return input.substring(0, breakLineIndex).trim() + "\n"
+                        + input.substring(breakLineIndex + 1, input.length()).trim();
             }
         }
         return input;
